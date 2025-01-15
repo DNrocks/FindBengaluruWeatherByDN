@@ -7,24 +7,22 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Bengaluru Weather</h1>
-        <button id="startButton">Start</button>
-        <div id="currentTemperature" class="hidden">Current Temperature: <span id="currentTempValue">--</span>°C</div>
-        <div class="table-container">
-            <table id="weatherTable">
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Temperature (°C)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be populated here -->
-                </tbody>
-            </table>
+    <div id="start-screen" class="center">
+        <h1>Know Bengaluru's Weather Condition Today!</h1>
+        <button id="start-button">Start</button>
+    </div>
+
+    <div id="weather-screen" class="hidden">
+        <div id="current-weather">
+            <h2>Current Temperature</h2>
+            <p id="current-temp">-- °C</p>
+        </div>
+        <div id="hourly-weather">
+            <h2>Hourly Temperature</h2>
+            <div id="hourly-container"></div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
