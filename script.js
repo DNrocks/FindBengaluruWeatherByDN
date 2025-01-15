@@ -1,4 +1,6 @@
-document.getElementById("startButton").addEventListener("click", () => {
+document.getElementById("start-button").addEventListener("click", () => {
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("weather-screen").classList.remove("hidden");
     fetchWeatherData();
 });
 
@@ -16,39 +18,30 @@ function fetchWeatherData() {
     fetch(`${url}?${params}`)
         .then((response) => response.json())
         .then((data) => {
-            populateWeatherTable(data);
+            displayWeather(data);
         })
         .catch((error) => {
             console.error("Error fetching weather data:", error);
         });
 }
 
-function populateWeatherTable(data) {
-    const currentTempElement = document.getElementById("currentTemperature");
-    const currentTempValue = document.getElementById("currentTempValue");
-    const tableBody = document.querySelector("#weatherTable tbody");
+function displayWeather(data) {
+    // Display current temperature
+    const currentTempElement = document.getElementById("current-temp");
+    currentTempElement.textContent = `${data.hourly.temperature_2m[0]} °C`;
 
-    // Show current temperature
-    const currentTemp = data.hourly.temperature_2m[0];
-    currentTempValue.textContent = currentTemp;
-    currentTempElement.classList.remove("hidden");
-
-    // Populate table with hourly data
+    // Display hourly temperatures
+    const hourlyContainer = document.getElementById("hourly-container");
     const times = data.hourly.time;
     const temperatures = data.hourly.temperature_2m;
 
-    tableBody.innerHTML = ""; // Clear existing rows
+    hourlyContainer.innerHTML = ""; // Clear existing data
 
-    times.forEach((time, index) => {
-        const row = document.createElement("tr");
-        const timeCell = document.createElement("td");
-        const tempCell = document.createElement("td");
-
-        timeCell.textContent = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        tempCell.textContent = temperatures[index];
-
-        row.appendChild(timeCell);
-        row.appendChild(tempCell);
-        tableBody.appendChild(row);
-    });
+    for (let i = 0; i < times.length; i++) {
+        const box = document.createElement("div");
+        box.className = "hourly-box";
+        const time = new Date(times[i]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        box.innerHTML = `<p>${time}</p><p>${temperatures[i]} °C</p>`;
+        hourlyContainer.appendChild(box);
+    }
 }
